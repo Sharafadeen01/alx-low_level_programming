@@ -4,7 +4,7 @@
  ** followed by a new line
  ** Return:nothing
  **/
-void print_alphabet(void)
+void print_alphabet_x10(void);
 {
 int low;
 for (low = 'a'; low <= 'z'; low++)
