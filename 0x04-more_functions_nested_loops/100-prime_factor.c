@@ -1,27 +1,20 @@
-#include "stdio.h"
+#include <stdio.h>
 #include "main.h"
+
 /**
- * main - Wntry point. fond largest prime factor
+ * main - prints the largest prime factor of 612852475143
  *
- * Return: Always 0 (success)
+ * Return: 0
  */
 
 int main(void)
 {
-	unsigned long i = 2;
-	unsigned long biggest = 0;
-	unsigned long number = 612852475143;
-
-	while (number > i)/* B */
-	{
-	while (number % i == 0)/* C */
-	{
-	if (i > biggest)
-	biggest = i;
-	number = number / i;
-	}
-	i++;/* D */
-	}
-	printf("%lu\n", biggest);
-	return (0);
+unsigned long int i, n = 612852475143;
+for (i = 3; i < 782849; i = i + 2)
+{
+while ((n % i == 0) && (n != i))
+n = n / i;
+}
+printf("%lu\n", n);
+return (0);
 }
