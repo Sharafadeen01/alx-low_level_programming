@@ -1,3 +1,4 @@
+#include "stdio.h"
 #include "main.h"
 /**
  * main - Wntry point. fond largest prime factor
