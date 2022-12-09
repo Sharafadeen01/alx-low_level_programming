@@ -16,7 +16,9 @@ void print_addr(char *ptr)
 int i;
 int begin;
 char sys;
+
 printf("  Entry point address:               0x");
+
 sys = ptr[4] + '0';
 if (sys == '1')
 {
@@ -46,81 +48,64 @@ printf("%02x", 256 + ptr[i]);
 printf("\n");
 }
 /**
- *
- *  * print_osabi - prints osabi
- *
- *   * @ptr: magic.
- *
- *    * Return: no return.
- *
- *     */
-
-void print_osabi(char *ptr)
-
+ * print_type - prints type
+ * @ptr: magic.
+ * Return: no return.
+ */
+void print_type(char *ptr)
 {
-
-		char osabi = ptr[7];
-
-
-
-			printf("  OS/ABI:                            ");
-
-				if (osabi == 0)
-
-							printf("UNIX - System V\n");
-
-					else if (osabi == 2)
-
-								printf("UNIX - NetBSD\n");
-
-						else if (osabi == 6)
-
-									printf("UNIX - Solaris\n");
-
-							else
-
-										printf("<unknown: %x>\n", osabi);
-
-
-
-								printf("  ABI Version:                       %d\n", ptr[8]);
-
+char type = ptr[16];
+if (ptr[5] == 1)
+type = ptr[16];
+else
+type = ptr[17];
+printf("  Type:                              ");
+if (type == 0)
+printf("NONE (No file type)\n");
+else if (type == 1)
+printf("REL (Relocatable file)\n");
+else if (type == 2)
+printf("EXEC (Executable file)\n");
+else if (type == 3)
+printf("DYN (Shared object file)\n");
+else if (type == 4)
+printf("CORE (Core file)\n");
+else
+printf("<unknown: %x>\n", type);
 }
 
-
-
-
-
 /**
- *
- *  * print_version - prints version
- *
- *   * @ptr: magic.
- *
- *    * Return: no return.
- *
- *     */
-
-void print_version(char *ptr)
-
+ * print_osabi - prints osabi
+ * @ptr: magic.
+ * Return: no return.
+ */
+void print_osabi(char *ptr)
 {
+char osabi = ptr[7];
+printf("  OS/ABI:                            ");
+if (osabi == 0)
+printf("UNIX - System V\n");
+else if (osabi == 2)
+printf("UNIX - NetBSD\n");
+else if (osabi == 6)
+printf("UNIX - Solaris\n");
+else
+printf("<unknown: %x>\n", osabi);
+printf("  ABI Version:                       %d\n", ptr[8]);
+}
 
-		int version = ptr[6];
-
-
-
-			printf("  Version:                           %d", version);
-
-
-
-				if (version == EV_CURRENT)
-
-							printf(" (current)");
-
-
-
-					printf("\n");
-
+/*
+ * print_version - prints version
+ * @ptr: magic.
+ * Return: no return.
+ */
+void print_version(char *ptr)
+{
+int version = ptr[6];
+printf("  Version:                           %d", version);
+if (version == EV_CURRENT)
+printf(" (current)");
+printf("\n");
 }
 /**
  * print_data - prints data
@@ -141,7 +126,6 @@ printf(", big endian\n");
  * @ptr: magic.
  * Return: no return.
  */
-
 void print_magic(char *ptr)
 {
 int bytes;
@@ -150,6 +134,7 @@ for (bytes = 0; bytes < 16; bytes++)
 printf(" %02x", ptr[bytes]);
 printf("\n");
 }
+
 /**
  * check_sys - check the version system.
  * @ptr: magic.
@@ -172,6 +157,7 @@ print_osabi(ptr);
 print_type(ptr);
 print_addr(ptr);
 }
+
 /**
  * check_elf - check if it is an elf file.
  * @ptr: magic.
